@@ -39,6 +39,8 @@ h1 {
 	background-size: 100%;
 	background-image: url(images/tile-.png);
 	z-index: 5;
+
+	transition: top 0.3s, left 0.3s;
 }
 
 .field .tileW {

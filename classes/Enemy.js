@@ -7,12 +7,14 @@ export default class Enemy {
 		this.health = 100;
 	}
 
-	move() {
+	// TODO: add finding path to the player algorithm
+	move(playerX, playerY) {
 		const dx = Math.random() < 0.5 ? 1 : -1;
 		const dy = Math.random() < 0.5 ? 1 : -1;
 
 		const newX = this.x + dx;
 		const newY = this.y + dy;
+
 		if (this.map.isTileEmpty(newX, newY)) {
 			this.x = newX;
 			this.y = newY;

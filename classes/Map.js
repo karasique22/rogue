@@ -173,14 +173,18 @@ export default class Map {
 	}
 
 	displayEnemy(enemy) {
-		let x = enemy.x;
-		let y = enemy.y;
-		const enemyRef = document.createElement("div");
-		enemyRef.classList.add("tile", "tileE");
-		enemyRef.setAttribute("id", `enemy-${enemyIdCounter++}`);
-		enemyRef.style.left = x * this.tileSize + "px";
-		enemyRef.style.top = y * this.tileSize + "px";
-		document.querySelector(".field").appendChild(enemyRef);
+		let enemyElement = document.getElementById(`enemy-${enemy.id}`);
+
+		if (!enemyElement) {
+			enemyElement = document.createElement("div");
+			enemyElement.id = `enemy-${enemy.id}`;
+			enemyElement.classList.add("tile", "tileE");
+			const mapContainer = document.querySelector(".field");
+			mapContainer.appendChild(enemyElement);
+		}
+
+		enemyElement.style.left = enemy.x * this.tileSize + "px";
+		enemyElement.style.top = enemy.y * this.tileSize + "px";
 	}
 
 	removeEntity(id) {

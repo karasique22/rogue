@@ -27,6 +27,6 @@ document.addEventListener("keydown", event => {
 
 setInterval(() => {
 	game.enemies.forEach(enemy => {
-		enemy.move();
+		enemy.move(game.player.x, game.player.y);
 	});
 }, 2000);
