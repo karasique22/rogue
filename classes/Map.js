@@ -11,6 +11,8 @@ export default class Map {
 		this.emptyTiles = [];
 		this.player = null;
 		this.enemies = [];
+		this.swords = [];
+		this.potions = [];
 	}
 
 	init() {
@@ -26,8 +28,17 @@ export default class Map {
 			this
 		);
 
+		// TODO: refactor
 		this.enemiesCoordinates.forEach(({ x, y }, index) => {
 			this.enemies.push(new Enemy(x, y, index, this));
+		});
+
+		this.swordsCoordinates.forEach(({ x, y }, index) => {
+			this.swords.push({ x, y, index });
+		});
+
+		this.potionsCoordinates.forEach(({ x, y }, index) => {
+			this.potions.push({ x, y, index });
 		});
 
 		this.displayMap();
@@ -43,6 +54,7 @@ export default class Map {
 			}
 		}
 
+		// TODO: fix unreachable rooms
 		const numRooms = Math.floor(Math.random() * 6) + 5;
 		const minRoomSize = Math.floor(Math.random() * 6) + 3;
 		const maxRoomSize = Math.floor(Math.random() * 6) + 3;
@@ -133,25 +145,16 @@ export default class Map {
 			}
 		}
 
-		this.swordsCoordinates.forEach(({ x, y }) => {
-			const sword = document.createElement("div");
-			sword.classList.add("tile", "tileSW");
-			sword.style.left = x * this.tileSize + "px";
-			sword.style.top = y * this.tileSize + "px";
-			mapContainer.appendChild(sword);
-		});
-
-		this.potionsCoordinates.forEach(({ x, y }) => {
-			const potion = document.createElement("div");
-			potion.classList.add("tile", "tileHP");
-			potion.style.left = x * this.tileSize + "px";
-			potion.style.top = y * this.tileSize + "px";
-			mapContainer.appendChild(potion);
-		});
-
+		// TODO: refactor
 		this.displayPlayer(this.player);
 		this.enemies.forEach(enemy => {
 			this.displayEnemy(enemy);
+		});
+		this.swords.forEach(sword => {
+			this.displaySword(sword);
+		});
+		this.potions.forEach(potion => {
+			this.displayPotion(potion);
 		});
 
 		mapContainer.style.width = this.width * this.tileSize + "px";
@@ -187,11 +190,44 @@ export default class Map {
 		enemyElement.style.top = enemy.y * this.tileSize + "px";
 	}
 
+	displaySword(sword) {
+		const id = sword.index;
+		let swordElement = document.getElementById(`sword-${id}`);
+
+		if (!swordElement) {
+			swordElement = document.createElement("div");
+			swordElement.id = `sword-${id}`;
+			swordElement.classList.add("tile", "tileSW");
+			const mapContainer = document.querySelector(".field");
+			mapContainer.appendChild(swordElement);
+		}
+
+		swordElement.style.left = sword.x * this.tileSize + "px";
+		swordElement.style.top = sword.y * this.tileSize + "px";
+	}
+
+	displayPotion(potion) {
+		const id = potion.index;
+		let potionElement = document.getElementById(`potion-${id}`);
+
+		if (!potionElement) {
+			potionElement = document.createElement("div");
+			potionElement.id = `potion-${id}`;
+			potionElement.classList.add("tile", "tileHP");
+			const mapContainer = document.querySelector(".field");
+			mapContainer.appendChild(potionElement);
+		}
+
+		potionElement.style.left = potion.x * this.tileSize + "px";
+		potionElement.style.top = potion.y * this.tileSize + "px";
+	}
+
 	removeEntity(id) {
 		const entity = document.getElementById(id);
 		entity.remove();
 	}
 
+	// FIXME: deleting used empty tiles
 	pickEmptyTile() {
 		return this.emptyTiles[
 			Math.floor(Math.random() * this.emptyTiles.length)
@@ -200,6 +236,16 @@ export default class Map {
 
 	isTileEmpty(x, y) {
 		return this.map[y][x] === 0;
+	}
+
+	isTileItem(x, y) {
+		const isSword = this.swords.some(
+			sword => sword.x === x && sword.y === y
+		);
+		const isPotion = this.potions.some(
+			potion => potion.x === x && potion.y === y
+		);
+		return isSword || isPotion;
 	}
 
 	placePlayer() {

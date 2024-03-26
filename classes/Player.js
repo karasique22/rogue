@@ -3,8 +3,7 @@ export default class Player {
 		this.x = x;
 		this.y = y;
 		this.health = 100;
-		// this.attack = 10;
-		this.attack = 100;
+		this.attack = 20;
 		this.map = map;
 	}
 	move(keyCode) {
@@ -31,6 +30,26 @@ export default class Player {
 		if (this.map.isTileEmpty(newX, newY)) {
 			this.x = newX;
 			this.y = newY;
+
+			// TODO: refactor
+			this.map.swords = this.map.swords.filter(sword => {
+				if (this.x === sword.x && this.y === sword.y) {
+					this.map.removeEntity(`sword-${sword.index}`);
+					this.useSword();
+					return false;
+				}
+				return true;
+			});
+
+			this.map.potions = this.map.potions.filter(potion => {
+				if (this.x === potion.x && this.y === potion.y) {
+					this.map.removeEntity(`potion-${potion.index}`);
+					this.usePotion();
+					return false;
+				}
+				return true;
+			});
+
 			this.map.displayPlayer(this);
 		}
 	}
@@ -47,6 +66,21 @@ export default class Player {
 				}
 			}
 		});
+	}
+
+	useSword() {
+		this.attack += 30;
+
+		setTimeout(() => {
+			this.attack -= 30;
+		}, 10000);
+	}
+
+	usePotion() {
+		this.health += 20;
+		if (this.health > 100) {
+			this.health = 100;
+		}
 	}
 
 	receiveDamage(amount) {
