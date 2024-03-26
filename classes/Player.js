@@ -27,6 +27,7 @@ export default class Player {
 
 		const newX = this.x + dx;
 		const newY = this.y + dy;
+
 		if (this.map.isTileEmpty(newX, newY)) {
 			this.x = newX;
 			this.y = newY;
@@ -48,6 +49,12 @@ export default class Player {
 					return false;
 				}
 				return true;
+			});
+
+			this.map.enemies.forEach(enemy => {
+				if (enemy.x === this.x && enemy.y === this.y) {
+					this.receiveDamage(enemy.attack);
+				}
 			});
 
 			this.map.displayPlayer(this);

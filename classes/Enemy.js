@@ -5,6 +5,7 @@ export default class Enemy {
 		this.id = id;
 		this.map = map;
 		this.health = 100;
+		this.attack = 20;
 	}
 
 	// TODO: add finding path to the player algorithm
