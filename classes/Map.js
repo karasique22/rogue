@@ -2,7 +2,7 @@ import Player from "./Player.js";
 import Enemy from "./Enemy.js";
 
 export default class Map {
-	constructor() {
+	constructor(game) {
 		this.width = 40;
 		this.height = 24;
 		this.tileSize = 25;
@@ -11,6 +11,7 @@ export default class Map {
 		this.enemies = [];
 		this.swords = [];
 		this.potions = [];
+		this.game = game;
 	}
 
 	init() {
@@ -23,6 +24,7 @@ export default class Map {
 		this.player = new Player(
 			this.playerCoordinates.x,
 			this.playerCoordinates.y,
+			this.game,
 			this
 		);
 
@@ -52,7 +54,7 @@ export default class Map {
 			}
 		}
 
-		// TODO: fix unreachable rooms
+		// Generate rooms
 		const numRooms = Math.floor(Math.random() * 6) + 5;
 		const minRoomSize = Math.floor(Math.random() * 6) + 3;
 		const maxRoomSize = Math.floor(Math.random() * 6) + 3;
@@ -89,21 +91,24 @@ export default class Map {
 			} while (failedIterations < 50);
 		}
 
-		const numVerticalPassages = Math.floor(Math.random() * 3) + 3;
-		for (let v = 0; v < numVerticalPassages; v++) {
-			const passageX = Math.floor(Math.random() * (this.width - 2)) + 1;
-			for (let y = 0; y < this.height; y++) {
-				map[y][passageX] = 0;
-				this.emptyTiles.push({ x: passageX, y: y });
-			}
-		}
-
-		const numHorizontalPassages = Math.floor(Math.random() * 3) + 3;
-		for (let h = 0; h < numHorizontalPassages; h++) {
-			const passageY = Math.floor(Math.random() * (this.height - 2)) + 1;
-			for (let x = 0; x < this.width; x++) {
-				map[passageY][x] = 0;
-				this.emptyTiles.push({ x: x, y: passageY });
+		// Generate passages
+		const numPassages = Math.floor(Math.random() * 3) + 3;
+		for (let p = 0; p < numPassages; p++) {
+			const isVerticalPassage = Math.random() < 0.5; // Randomly decide if the passage will be vertical or horizontal
+			if (isVerticalPassage) {
+				const passageX =
+					Math.floor(Math.random() * (this.width - 2)) + 1;
+				for (let y = 0; y < this.height; y++) {
+					map[y][passageX] = 0;
+					this.emptyTiles.push({ x: passageX, y });
+				}
+			} else {
+				const passageY =
+					Math.floor(Math.random() * (this.height - 2)) + 1;
+				for (let x = 0; x < this.width; x++) {
+					map[passageY][x] = 0;
+					this.emptyTiles.push({ x, y: passageY });
+				}
 			}
 		}
 

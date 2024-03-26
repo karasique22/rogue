@@ -1,10 +1,11 @@
 export default class Player {
-	constructor(x, y, map) {
+	constructor(x, y, game, map) {
 		this.x = x;
 		this.y = y;
-		this.health = 100;
+		this.health = 1;
 		this.attack = 20;
 		this.map = map;
+		this.game = game;
 		this.kills = 0;
 	}
 	move(keyCode) {
@@ -108,5 +109,6 @@ export default class Player {
 	die() {
 		this.map.player = null;
 		this.map.removeEntity("player");
+		this.game.gameOver(this.kills);
 	}
 }
