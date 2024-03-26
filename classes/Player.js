@@ -52,7 +52,10 @@ export default class Player {
 			});
 
 			this.map.enemies.forEach(enemy => {
-				if (enemy.x === this.x && enemy.y === this.y) {
+				if (
+					Math.abs(this.x - enemy.x) <= 1 &&
+					Math.abs(this.y - enemy.y) <= 1
+				) {
 					this.receiveDamage(enemy.attack);
 				}
 			});
