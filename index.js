@@ -6,6 +6,7 @@ class Game {
 		this.map.init();
 		this.player = this.map.player;
 		this.enemies = this.map.enemies;
+		this.gameOver = false;
 	}
 }
 
@@ -13,9 +14,11 @@ const game = new Game();
 game.init();
 
 document.addEventListener("keydown", event => {
-	const key = event.key.toLowerCase();
-	if (["w", "a", "s", "d"].includes(key)) {
-		game.player.move(key);
+	if (!game.player.health <= 0) {
+		const key = event.key.toLowerCase();
+		if (["w", "a", "s", "d"].includes(key)) {
+			game.player.move(key);
+		}
 	}
 });
 

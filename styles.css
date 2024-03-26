@@ -74,22 +74,22 @@ h1 {
 	z-index: 9;
 }
 
-.field .tile .health {
+.field .tileE .health {
 	background-color: #ff0000;
 	z-index: 11;
 	position: absolute;
-	left: 0px;
-	top: 0px;
-	height: 3px;
+	left: -12px;
+	top: -10px;
+	height: 4px;
 }
 
 .field .tileP .health {
 	background-color: #00ff00;
 	z-index: 11;
 	position: absolute;
-	left: 0px;
-	top: 0px;
-	height: 3px;
+	left: -12px;
+	top: -10px;
+	height: 4px;
 }
 
 .inventory-box {

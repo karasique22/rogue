@@ -5,6 +5,7 @@ export default class Player {
 		this.health = 100;
 		this.attack = 20;
 		this.map = map;
+		this.kills = 0;
 	}
 	move(keyCode) {
 		let dx = 0;
@@ -60,7 +61,9 @@ export default class Player {
 				}
 			});
 
-			this.map.displayPlayer(this);
+			if (this.health > 0) {
+				this.map.displayPlayer(this);
+			}
 		}
 	}
 	attackNearbyEnemies() {
@@ -70,9 +73,11 @@ export default class Player {
 				Math.abs(this.y - enemy.y) <= 1
 			) {
 				enemy.health -= this.attack;
+				this.map.displayEnemy(enemy);
 				if (enemy.health <= 0) {
 					this.map.enemies.splice(index, 1);
 					this.map.removeEntity(`enemy-${enemy.id}`);
+					this.kills++;
 				}
 			}
 		});
@@ -98,5 +103,10 @@ export default class Player {
 		if (this.health <= 0) {
 			this.die();
 		}
+	}
+
+	die() {
+		this.map.player = null;
+		this.map.removeEntity("player");
 	}
 }

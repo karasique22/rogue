@@ -1,8 +1,6 @@
 import Player from "./Player.js";
 import Enemy from "./Enemy.js";
 
-let enemyIdCounter = 0;
-
 export default class Map {
 	constructor() {
 		this.width = 40;
@@ -163,20 +161,29 @@ export default class Map {
 
 	displayPlayer(player) {
 		let playerElement = document.querySelector(".tileP");
+		let healthElement = document.querySelector(".health");
 
 		if (!playerElement) {
 			playerElement = document.createElement("div");
 			playerElement.classList.add("tile", "tileP");
+			playerElement.id = "player";
 			const mapContainer = document.querySelector(".field");
 			mapContainer.appendChild(playerElement);
+
+			healthElement = document.createElement("div");
+			healthElement.classList.add("health");
+			playerElement.appendChild(healthElement);
 		}
 
 		playerElement.style.left = player.x * this.tileSize + "px";
 		playerElement.style.top = player.y * this.tileSize + "px";
+
+		healthElement.style.width = player.health / 2 + "px";
 	}
 
 	displayEnemy(enemy) {
 		let enemyElement = document.getElementById(`enemy-${enemy.id}`);
+		let healthElement = document.getElementById(`enemyHealth-${enemy.id}`);
 
 		if (!enemyElement) {
 			enemyElement = document.createElement("div");
@@ -184,10 +191,17 @@ export default class Map {
 			enemyElement.classList.add("tile", "tileE");
 			const mapContainer = document.querySelector(".field");
 			mapContainer.appendChild(enemyElement);
+
+			healthElement = document.createElement("div");
+			healthElement.classList.add("health");
+			healthElement.id = `enemyHealth-${enemy.id}`;
+			enemyElement.appendChild(healthElement);
 		}
 
 		enemyElement.style.left = enemy.x * this.tileSize + "px";
 		enemyElement.style.top = enemy.y * this.tileSize + "px";
+
+		healthElement.style.width = enemy.health / 2 + "px";
 	}
 
 	displaySword(sword) {
