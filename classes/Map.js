@@ -91,24 +91,21 @@ export default class Map {
 			} while (failedIterations < 50);
 		}
 
-		// Generate passages
-		const numPassages = Math.floor(Math.random() * 3) + 3;
-		for (let p = 0; p < numPassages; p++) {
-			const isVerticalPassage = Math.random() < 0.5; // Randomly decide if the passage will be vertical or horizontal
-			if (isVerticalPassage) {
-				const passageX =
-					Math.floor(Math.random() * (this.width - 2)) + 1;
-				for (let y = 0; y < this.height; y++) {
-					map[y][passageX] = 0;
-					this.emptyTiles.push({ x: passageX, y });
-				}
-			} else {
-				const passageY =
-					Math.floor(Math.random() * (this.height - 2)) + 1;
-				for (let x = 0; x < this.width; x++) {
-					map[passageY][x] = 0;
-					this.emptyTiles.push({ x, y: passageY });
-				}
+		const numVerticalPassages = Math.floor(Math.random() * 3) + 3;
+		for (let v = 0; v < numVerticalPassages; v++) {
+			const passageX = Math.floor(Math.random() * (this.width - 2)) + 1;
+			for (let y = 0; y < this.height; y++) {
+				map[y][passageX] = 0;
+				this.emptyTiles.push({ x: passageX, y: y });
+			}
+		}
+
+		const numHorizontalPassages = Math.floor(Math.random() * 3) + 3;
+		for (let h = 0; h < numHorizontalPassages; h++) {
+			const passageY = Math.floor(Math.random() * (this.height - 2)) + 1;
+			for (let x = 0; x < this.width; x++) {
+				map[passageY][x] = 0;
+				this.emptyTiles.push({ x: x, y: passageY });
 			}
 		}
 

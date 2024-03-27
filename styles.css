@@ -16,7 +16,6 @@ body {
 h1 {
 	font-family: "Playfair Display";
 	font-size: 30px;
-	padding: 10px 0px;
 	margin: 0px;
 	text-align: center;
 }
@@ -36,7 +35,7 @@ button {
 	display: flex;
 	flex-direction: column;
 	gap: 2em;
-	margin: 2em;
+	margin: 0 2em;
 }
 
 .field-box {
@@ -58,7 +57,7 @@ button {
 	background-image: url(images/tile-.png);
 	z-index: 5;
 
-	transition: top 0.3s, left 0.3s;
+	transition: top 0.3s, left 0.3s ease-out;
 }
 
 .field .tileW {
@@ -92,6 +91,7 @@ button {
 	left: -12px;
 	top: -10px;
 	height: 4px;
+	transition: width 0.15s;
 }
 
 .field .tileP .health {
@@ -101,6 +101,7 @@ button {
 	left: -12px;
 	top: -10px;
 	height: 4px;
+	transition: width 0.15s;
 }
 
 .inventory-box {
@@ -151,4 +152,11 @@ button {
 	max-width: max-content;
 	padding: 8px 16px;
 	margin: 0 auto;
+}
+
+.timer {
+	position: absolute;
+	z-index: 11;
+	left: -15px;
+	height: 4px;
 }

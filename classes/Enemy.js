@@ -9,7 +9,7 @@ export default class Enemy {
 	}
 
 	// TODO: add finding path to the player algorithm
-	move(playerX, playerY) {
+	move() {
 		const dx = Math.random() < 0.5 ? 1 : -1;
 		const dy = Math.random() < 0.5 ? 1 : -1;
 

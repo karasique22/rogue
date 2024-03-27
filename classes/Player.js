@@ -2,7 +2,7 @@ export default class Player {
 	constructor(x, y, game, map) {
 		this.x = x;
 		this.y = y;
-		this.health = 1;
+		this.health = 100;
 		this.attack = 20;
 		this.map = map;
 		this.game = game;
@@ -86,10 +86,21 @@ export default class Player {
 
 	useSword() {
 		this.attack += 30;
+		const playerELement = document.querySelector(".tileP");
+		const timer = document.createElement("div");
+		timer.classList.add("timer");
+		playerELement.appendChild(timer);
 
-		setTimeout(() => {
-			this.attack -= 30;
-		}, 10000);
+		let time = 10;
+		const interval = setInterval(() => {
+			timer.innerText = time;
+			if (time <= 0) {
+				clearInterval(interval);
+				timer.remove();
+				this.attack -= 30;
+			}
+			time--;
+		}, 1000);
 	}
 
 	usePotion() {

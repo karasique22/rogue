@@ -25,6 +25,8 @@ class Game {
 
 		document.body.appendChild(gameOverElement);
 		document.querySelector(".overlay").style.opacity = "1";
+
+		game.player = null;
 	}
 }
 
@@ -38,7 +40,7 @@ const initGame = () => {
 document.addEventListener("DOMContentLoaded", initGame);
 
 document.addEventListener("keydown", event => {
-	if (!game.player.health <= 0) {
+	if (game.player) {
 		const key = event.key.toLowerCase();
 		if (["w", "a", "s", "d"].includes(key)) {
 			game.player.move(key);
@@ -47,14 +49,16 @@ document.addEventListener("keydown", event => {
 });
 
 document.addEventListener("keydown", event => {
-	if (event.code === "Space") {
-		game.player.attackNearbyEnemies();
+	if (game.player) {
+		if (event.code === "Space") {
+			game.player.attackNearbyEnemies();
+		}
 	}
 });
 
 setInterval(() => {
 	game.enemies.forEach(enemy => {
-		enemy.move(game.player.x, game.player.y);
+		enemy.move();
 	});
 }, 2000);
 
