@@ -91,7 +91,7 @@ button {
 	left: -12px;
 	top: -10px;
 	height: 4px;
-	transition: width 0.15s;
+	transition: width 0.2s;
 }
 
 .field .tileP .health {
@@ -101,7 +101,7 @@ button {
 	left: -12px;
 	top: -10px;
 	height: 4px;
-	transition: width 0.15s;
+	transition: width 0.2s;
 }
 
 .inventory-box {

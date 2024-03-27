@@ -34,24 +34,40 @@ export default class Player {
 			this.x = newX;
 			this.y = newY;
 
-			// TODO: refactor
-			this.map.swords = this.map.swords.filter(sword => {
-				if (this.x === sword.x && this.y === sword.y) {
-					this.map.removeEntity(`sword-${sword.index}`);
-					this.useSword();
-					return false;
-				}
-				return true;
-			});
+			function handleEntityInteractions(
+				map,
+				entityArray,
+				entityType,
+				playerX,
+				playerY,
+				useFunction
+			) {
+				return entityArray.filter(entity => {
+					if (playerX === entity.x && playerY === entity.y) {
+						map.removeEntity(`${entityType}-${entity.index}`);
+						useFunction();
+						return false;
+					}
+					return true;
+				});
+			}
 
-			this.map.potions = this.map.potions.filter(potion => {
-				if (this.x === potion.x && this.y === potion.y) {
-					this.map.removeEntity(`potion-${potion.index}`);
-					this.usePotion();
-					return false;
-				}
-				return true;
-			});
+			this.map.swords = handleEntityInteractions(
+				this.map,
+				this.map.swords,
+				"sword",
+				this.x,
+				this.y,
+				this.useSword.bind(this)
+			);
+			this.map.potions = handleEntityInteractions(
+				this.map,
+				this.map.potions,
+				"potion",
+				this.x,
+				this.y,
+				this.usePotion.bind(this)
+			);
 
 			this.map.enemies.forEach(enemy => {
 				if (
